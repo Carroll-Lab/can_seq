@@ -1,5 +1,6 @@
 from Bio import SeqIO
 
+
 def parse_var_file(varscan_file):
     """
     parses varscan file
@@ -21,12 +22,13 @@ def parse_var_file(varscan_file):
     f.close()
     return var_list
 
-def mod_gb(var_list, gb_in_file, gb_out_file):
+def mod_gb(var_list, gb_in_file, gb_out_file, csv_out_file):
     """
     parses gb_in_file
     inserts carscan SNP infor
-    writes to new gb_out_file
+    writes to new gb_out_file and simplified csv_out_file
     """
+    compiled_list=[]
     insert_pos=False
     with open(gb_in_file, 'r') as f:
         with open (gb_out_file, 'w') as g:
@@ -37,6 +39,7 @@ def mod_gb(var_list, gb_in_file, gb_out_file):
                         g.write('     misc_feature     {0}..{0}\n'.format(str(var[0])))
                         g.write('                     /vntifkey="21"\n')
                         g.write('                     /label={0}-->{1}_{2}\n'.format(var[1], var[2], var[3]))
+                    	compiled_list.append((gb_in_file, var[0],var[1],var[2],var[3]))
                     insert_pos=False
                     g.write(line)
                 elif line[:8]=="FEATURES":
@@ -46,14 +49,22 @@ def mod_gb(var_list, gb_in_file, gb_out_file):
                     g.write(line)
     g.close()
     f.close()
-
+    with open(csv_out_file, 'w') as h:
+    	h.write("Gene, Position, Reference, Variant, Frequency\n")
+    	for var in compiled_list:
+    		h.write("{0},{1},{2},{3},{4}\n".format(var[0].split('/')[1].split('.')[0], 
+    			var[1],
+    			var[2],
+    			var[3],
+    			var[4]))
+    h.close()
 
 IDS, = glob_wildcards("raw/{smp}_1.fq")
 gbs, = glob_wildcards("gb/{gb}.gb")
 
 rule alignments:
 	input: 
-		expand("annot_gb/{smp}.{fa}.gb", smp=IDS, fa=gbs)
+		expand("annot_csv/{smp}.{fa}.csv", smp=IDS, fa=gbs)
 
 rule trimming:
 	input:
@@ -64,8 +75,9 @@ rule trimming:
 		rvs="seq/{smp}_2.fq",
 		fwd_u="seq/{smp}_1_U.fq",
 		rvs_u="seq/{smp}_2_U.fq"
+	threads: 12
 	shell:
-		"trimmomatic PE -threads 4 {input.fwd} {input.rev} {output.fwd} {output.fwd_u} {output.rvs} {output.rvs_u} ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"
+		"trimmomatic PE -threads {threads} {input.fwd} {input.rev} {output.fwd} {output.fwd_u} {output.rvs} {output.rvs_u} ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36"
 
 rule converting_gb:
 	input:
@@ -102,12 +114,9 @@ rule gb_annot:
 		csv_file = "snp/{smp}.{fa}.csv",
 		ingb = "gb/{fa}.gb"
 	output:
-		outgb = "annot_gb/{smp}.{fa}.gb"
+		outgb = "annot_gb/{smp}.{fa}.gb",
+		outcsv= "annot_csv/{smp}.{fa}.csv"
 	run:
+
 		var_list = parse_var_file(input.csv_file)
-		mod_gb(var_list,input.ingb, output.outgb)
-
-
-
-
-
+		compiled_list=mod_gb(var_list,input.ingb, output.outgb, output.outcsv)
