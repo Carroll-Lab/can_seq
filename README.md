@@ -19,7 +19,11 @@ conda create -n can_seq python=3.6 biopython trim-galore bowtie2 samtools varsca
 
 1. Copy reference files (genomic region of each candidate gene) in genbank format to the ```gb``` directory.  Files must have the extension ```.gb```
 2. Copy paired-end FASTQ sequences files to the ```raw``` directory.  These should be uncomplressed and have the file extensions ```_1.fq``` and ```_2.fq``` for each of the pairs
-3. Run the script.  It should be in the root sirectory of the project
+3. Activate the can_seq environment
+```
+source activate canseq
+```
+4. Run the script.  It should be in the root sirectory of the project
 ```
 snakemake -s can_seq.snakefile
 ```
