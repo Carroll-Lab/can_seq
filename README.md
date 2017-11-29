@@ -7,7 +7,10 @@ Requires:
 - Anaconda / Miniconda installed
 
 Install the software in the can_seq environment:
-```conda create -n can_seq python=3.6 biopython trim_galore bowtie2 samtools varscan snakemake```
+
+```
+conda create -n can_seq python=3.6 biopython trim_galore bowtie2 samtools varscan snakemake
+```
 
 - Download the can_seq script
 
@@ -18,6 +21,7 @@ Install the software in the can_seq environment:
 3. Run the script.  It should be in the root sirectory of the project
 ```
 snakemake -s can_seq.snakefile
+```
 
 ### What will happen
 
