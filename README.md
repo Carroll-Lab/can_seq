@@ -18,10 +18,10 @@ conda create -n can_seq python=3.6 biopython trim-galore bowtie2 samtools varsca
 ### Usage
 
 1. Copy reference files (genomic region of each candidate gene) in genbank format to the ```gb``` directory.  Files must have the extension ```.gb```
-2. Copy paired-end FASTQ sequences files to the ```raw``` directory.  These should be uncomplressed and have the file extensions ```_1.fq``` and ```_2.fq``` for each of the pairs
+2. Copy paired-end FASTQ sequences files to the ```raw``` directory.  These should be uncompressed and have the file extensions ```_1.fq``` and ```_2.fq``` for each of the pairs
 3. Activate the can_seq environment
 ```
-source activate canseq
+source activate can_seq
 ```
 4. Run the script.  It should be in the root sirectory of the project
 ```
