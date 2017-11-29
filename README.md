@@ -9,7 +9,7 @@ Requires:
 Install the software in the can_seq environment:
 
 ```
-conda create -n can_seq python=3.6 biopython trim_galore bowtie2 samtools varscan snakemake
+conda create -n can_seq python=3.6 biopython trim-galore bowtie2 samtools varscan snakemake
 ```
 
 - Download the can_seq script
