@@ -3,7 +3,7 @@
 ### Installation
 
 Requires:
-- Linux or Mac OSX
+- Linux or Mac OSX (likely Bash on Ubuntu on Windows too, but not tested)
 - Anaconda / Miniconda installed
 - Bioconda channels added
 
