@@ -5,6 +5,7 @@
 Requires:
 - Linux or Mac OSX
 - Anaconda / Miniconda installed
+- Bioconda channels added
 
 Install the software in the can_seq environment:
 
