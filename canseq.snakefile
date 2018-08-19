@@ -1,6 +1,5 @@
 from Bio import SeqIO
 
-
 def parse_var_file(varscan_file):
     """
     parses varscan file
@@ -23,10 +22,11 @@ def parse_var_file(varscan_file):
     print(var_list)
     return var_list
 
-def mod_gb(a,var_list, gb_in_file, gb_out_file, csv_out_file):
+
+def mod_gb(a, var_list, gb_in_file, gb_out_file, csv_out_file):
     """
     parses gb_in_file
-    inserts carscan SNP infor
+    inserts varscan SNP infor
     writes to new gb_out_file and simplified csv_out_file
     """
     compiled_list = []
@@ -64,7 +64,7 @@ def mod_gb(a,var_list, gb_in_file, gb_out_file, csv_out_file):
     h.close()
 
 
-IDS, = glob_wildcards("fastq/{smp}_1.fastq")
+IDS, = glob_wildcards("raw/{smp}_1.fq")
 gbs, = glob_wildcards("gb/{gb}.gb")
 
 rule alignments:
@@ -74,17 +74,17 @@ rule alignments:
 rule folders:
     output: "seq"
     shell: "mkdir {output}"
+
 rule trimming:
     input:
-        fwd = "fastq/{smp}_1.fastq",
-        rev = "fastq/{smp}_2.fastq"
+        fwd = "raw/{smp}_1.fq",
+        rev = "raw/{smp}_2.fq"
     output:
         fwd = "seq/{smp}_1_val_1.fq",
         rvs = "seq/{smp}_2_val_2.fq"
-    threads: 12
     shell:
         "trim_galore --paired --retain_unpaired --phred33 --length 36 -q 5 -o seq --stringency 1 -e 0.1 {input.fwd} {input.rev}"
-        
+
 rule converting_gb:
     input:
         ingb = "gb/{fa}.gb"
@@ -102,7 +102,7 @@ rule align:
         rvs = "seq/{smp}_2_val_2.fq",
     output:
         out_align = "align/{smp}.{fa}.bam"
-    threads: 12
+    threads: 40
     shell:
         "bowtie2 -x {input.index} -p {threads} -1 {input.fwd} -2 {input.rvs} | samtools view -@ {threads} -bS - | samtools sort -@ {threads} - > {output.out_align}"
 
@@ -124,6 +124,6 @@ rule gb_annot:
         outcsv = "annot_csv/{smp}.{fa}.csv"
     run:
         var_list = parse_var_file(input.csv_file),
-        a=8,
-        compiled_list = mod_gb(a,var_list, input.ingb,
-                               output.outgb, output.outcsv)
+        a = 8,
+        compiled_list = mod_gb(a, var_list, input.ingb,
+                       output.outgb, output.outcsv)
