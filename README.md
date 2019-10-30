@@ -33,7 +33,7 @@ project-root----can_seq.snakefile
 ```
 conda activate can_seq
 ```
-4. Run the script.  ```cans_seq.snakefile``` and ```config.json``` should be copied to the root directory of the project, or the path the location entered in the command.  
+4. Run the script.  ```cans_seq.snakefile``` and ```config.json``` should be copied to the root directory of the project, or the path to their location entered in the command.  
 ```
 snakemake -s can_seq.snakefile --configfile config.json
 ```
