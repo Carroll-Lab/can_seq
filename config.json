@@ -1,0 +1,6 @@
+{
+	"var_freq": 0.0075,
+	"min_cov": 200,
+	"var_reads": 30,
+	"reads_per_strand": 5
+}
