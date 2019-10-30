@@ -37,7 +37,7 @@ conda activate can_seq
 ```
 snakemake -s can_seq.snakefile --configfile config.json
 ```
-NOTE: ```config.json``` can be modified by the user.  The defualts are:
+NOTE: ```config.json``` can be modified by the user.  The defaults are:
 - ```var_freq```: 0.0075 (the minimum frequency at which a varient nucletoide must be present to be called)
 - ```min_cov```: 200 (the minimum number of reads that must cover a varient nucliotide position)
 - ```var_reads```: 30 (the minimum number of reads that must contain the varient nucleotide)
