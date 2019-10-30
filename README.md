@@ -51,8 +51,8 @@ The script will trim adapters from the read files, align them to each reference,
 Example CSV output for RDR6:
 | CDS | Var nucl pos | Ref nucl |  Var nucl | Var percent | FWD Ref coverage | FWD Ref coverage | RVS Ref coverage | FWD Var coverage | FWD Rvs coverage | Var prot pos | Ref aa | Var aa |
 |--|--|--|--|--|--|--|--|--|--|--|--|
-| 1 | 475	| G	| A	| 5.49% | 3404 | 1982 | 192 | 121 | 19 | G | E |
+| 1 | 475 | G | A | 5.49% | 3404 | 1982 | 192 | 121 | 19 | G | E |
 | 1 | 1100 | G | A | 4.43% | 3276 | 2327 | 148 | 112 | 227 | W | * |
-| 1 | 1545 | C | T | 3.59% | 3440 | 2261 | 131 | 81 | 376	R | * |
-| 1 | 2474 | G | A | 3.41% | 3621 | 2661 | 146 | 76 | 685	W | * |
+| 1 | 1545 | C | T | 3.59% | 3440 | 2261 | 131 | 81 | 376 | R | * |
+| 1 | 2474 | G | A | 3.41% | 3621 | 2661 | 146 | 76 | 685 | W | * |
 | 1 | 3427 | G | A | 5.29% | 3781 | 1999 | 205 | 118 | Intron | - | - |
