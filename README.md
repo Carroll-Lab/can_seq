@@ -48,7 +48,7 @@ NOTE: ```config.json``` can be modified by the user.  The defaults are:
 Genbank files covering the complete genomic region of the target gene should be correctly formatted
 - To construct the protein sequence and determine amino acid substitutions, at least one set of CDS coordinates is required in the FEATURES section.
 - e.g. ```     CDS             join(420..3134,3557..4432)```
-- Genbank files sourced via NCBI-Entrez Gene gene should be correctly formatted (e.g. [RDR6](https://www.ncbi.nlm.nih.gov/nuccore/NC_003074.8?report=genbank&from=18348974&to=18353673&strand=true))
+- Genbank files sourced via NCBI-Entrez Gene should be correctly formatted (e.g. [RDR6](https://www.ncbi.nlm.nih.gov/nuccore/NC_003074.8?report=genbank&from=18348974&to=18353673&strand=true))
 
 ### What will happen
 
