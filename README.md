@@ -39,7 +39,7 @@ snakemake -s can_seq.snakefile --configfile config.json
 ```
 NOTE: ```config.json``` can be modified by the user.  The defaults are:
 - ```var_freq```: 0.0075 (the minimum frequency at which a varient nucletoide must be present to be called)
-- ```min_cov```: 200 (the minimum number of reads that must cover a varient nucliotide position)
+- ```min_cov```: 200 (the minimum number of reads that must cover a varient nucleotide)
 - ```var_reads```: 30 (the minimum number of reads that must contain the varient nucleotide)
 - ```reads_per_strand```: 5 (the minimum number of reads containing the varient nucleotide that align to each strand)
 
