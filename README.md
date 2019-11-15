@@ -42,7 +42,7 @@ NOTE: ```config.json``` can be modified by the user.  The defaults are:
 - ```min_cov```: 200 (the minimum number of reads that must cover a varient nucleotide)
 - ```var_reads```: 30 (the minimum number of reads that must contain the varient nucleotide)
 - ```reads_per_strand```: 5 (the minimum number of reads containing the varient nucleotide that align to each strand)
-- ```canon```: 1 (Only canonical G-->A and C--?T substitutions are shown, use ```0``` to show all substitutions)
+- ```canon```: 1 (Only canonical G-->A and C-->T substitutions are shown, use ```0``` to show all substitutions)
 
 ### Essential requirements:
 
