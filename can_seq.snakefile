@@ -5,7 +5,7 @@ import csv
 
 
 
-def parse_var_file(varscan_file, strands):
+def parse_var_file(varscan_file, strands, canon):
     """
     parses varscan file
     returns list of tuples with snp details
@@ -17,20 +17,26 @@ def parse_var_file(varscan_file, strands):
                 pass
             else:
                 snp_line = line.split('\t', 6)
-                if int(snp_line[5].split(":")[-3])>strands and int(snp_line[5].split(":")[-2])>strands: 
-                    snp_pos = int(snp_line[1])
-                    snp_ref = snp_line[2]
-                    snp_var = snp_line[3]
-                    freq_var = snp_line[4].split(':')[4]
-                    fwd_var_cov = int(snp_line[5].split(":")[-3])
-                    rvs_var_cov = int(snp_line[5].split(":")[-2])
-                    fwd_ref_cov = int(snp_line[5].split(":")[-5])
-                    rvs_ref_cov = int(snp_line[5].split(":")[-4])
-                    result = (snp_pos, snp_ref, snp_var, freq_var, fwd_ref_cov, rvs_ref_cov, fwd_var_cov, rvs_var_cov)
-                    var_list.append(result)
+                if int(snp_line[5].split(":")[-3])>strands and int(snp_line[5].split(":")[-2])>strands:
+                	mut = line.split('\t')[2]+line.split('\t')[3]
+                	if canon==1:
+                		if mut=="GA" or mut=="CT":
+                			var_list.append(result(snp_line))
+                	else:
+                		var_list.append(result(snp_line))
     f.close()
     return var_list
 
+def result(snp_line):
+    snp_pos = int(snp_line[1])
+    snp_ref = snp_line[2]
+    snp_var = snp_line[3]
+    freq_var = snp_line[4].split(':')[4]
+    fwd_var_cov = int(snp_line[5].split(":")[-3])
+    rvs_var_cov = int(snp_line[5].split(":")[-2])
+    fwd_ref_cov = int(snp_line[5].split(":")[-5])
+    rvs_ref_cov = int(snp_line[5].split(":")[-4])
+    return (snp_pos, snp_ref, snp_var, freq_var, fwd_ref_cov, rvs_ref_cov, fwd_var_cov, rvs_var_cov)
 
 def get_genomic_seq(gbk):
     seq_record = SeqIO.read(gbk, "genbank")
@@ -157,8 +163,8 @@ def mod_gb(all_changes, gb_in_file, gb_out_file, csv_out_file):
     csvfile.close()
     
 
-def annotate(in_gb, var_csv, out_gb, out_csv, strands):
-    var_list = parse_var_file(var_csv, strands)
+def annotate(in_gb, var_csv, out_gb, out_csv, strands, canon):
+    var_list = parse_var_file(var_csv, strands, canon)
     genomic_seq = get_genomic_seq(in_gb)
     cdss = parse_gbk_cds(in_gb)
     all_changes = calc_aa_changes(cdss, genomic_seq, var_list)
@@ -232,4 +238,4 @@ rule gb_annot:
         outgb = "annot_gb/{smp}.{fa}.gb",
         outcsv = "annot_csv/{smp}.{fa}.csv"
     run:
-        annotate(input.ingb, input.csv_file, output.outgb, output.outcsv, config["reads_per_strand"])
+        annotate(input.ingb, input.csv_file, output.outgb, output.outcsv, config["reads_per_strand"], config["canon"])
